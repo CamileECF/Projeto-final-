@@ -1,0 +1,7 @@
+view\UsuarioView.class
+view\ProjetoFinal.class
+controller\TutorController.class
+controller\UsuarioController.class
+model\Usuario.class
+view\TutorView.class
+model\Tutor.class
