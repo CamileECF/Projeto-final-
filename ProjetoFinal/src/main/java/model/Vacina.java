@@ -7,14 +7,14 @@ public class Vacina {
     private String fabricante;
     private int periodoValidadeEmMeses;
 
-    public Vacina() {
+    public Vacina() { // construtor vazio
     }
 
     public Vacina(String nome, String fabricante, int periodoValidadeEmMeses) {
         this.nome = nome;
         this.fabricante = fabricante;
         this.periodoValidadeEmMeses = periodoValidadeEmMeses;
-    }
+    }// construtor
 
     public long getId() {
         return id;
@@ -46,14 +46,5 @@ public class Vacina {
 
     public void setPeriodoValidadeEmMeses(int periodoValidadeEmMeses) {
         this.periodoValidadeEmMeses = periodoValidadeEmMeses;
-    }
-
-    @Override
-    public String toString() {
-        return "Vacina{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", fabricante='" + fabricante + '\'' +
-                '}';
     }
 }
