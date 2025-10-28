@@ -10,11 +10,11 @@ public class Vacina {
     public Vacina() { // construtor vazio
     }
 
-    public Vacina(String nome, String fabricante, int periodoValidadeEmMeses) {
+    public Vacina(String nome, String fabricante, int periodoValidadeEmMeses) { // construtor padrão
         this.nome = nome;
         this.fabricante = fabricante;
         this.periodoValidadeEmMeses = periodoValidadeEmMeses;
-    }// construtor
+    }
 
     public long getId() {
         return id;
