@@ -1,55 +1,57 @@
 package controller;
 
-import java.util.ArrayList;
+import java.util.List; // 1. Importar o DAO
 
-import model.Vacina;
+import DAO.VacinaDAO;
+import model.Vacina; // 2. Usar a interface List
 
 public class VacinaController {
 
-    private ArrayList<Vacina> listaVacinas = new ArrayList<>();
+    // MUDANÇA: O Controller não tem mais uma 'ArrayList'.
+    // Ele tem uma instância do DAO.
+    private VacinaDAO vacinaDAO;
+
+    public VacinaController() {
+        // O Controller agora é responsável por criar seu próprio DAO.
+        this.vacinaDAO = new VacinaDAO();
+    }
 
     // CREATE
     public void cadastrarVacina(Vacina vacina) {
-        listaVacinas.add(vacina);
-        System.out.println("\n✅ Vacina cadastrada com sucesso!");
+        // Delega o trabalho para o DAO, que salvará no banco.
+        vacinaDAO.criarVacina(vacina); 
+        // A mensagem de sucesso já é impressa pelo DAO.
     }
 
     // READ
     public void listarVacinas() {
-        System.out.println("\n=== LISTA DE VACINAS ===");
+        // Busca a lista do BANCO DE DADOS através do DAO
+        List<Vacina> listaVacinas = vacinaDAO.listarVacinas(); 
+        
+        System.out.println("\n=== LISTA DE VACINAS (do Banco de Dados) ===");
         if (listaVacinas.isEmpty()) {
             System.out.println("Nenhuma vacina cadastrada.");
         } else {
-            for (int i = 0; i < listaVacinas.size(); i++) {
-                Vacina v = listaVacinas.get(i);
-                System.out.println((i + 1) + " - " + v.getNome() + " | Fabricante: " + v.getFabricante()
-                        + " | Validade: " + v.getPeriodoValidadeEmMeses() + " meses");
+            // Itera sobre a lista vinda do banco
+            for (Vacina v : listaVacinas) {
+                // Imprime os dados formatados, incluindo o ID
+                System.out.println("ID: " + v.getId() + " - " + v.getNome() + 
+                                   " | Fabricante: " + v.getFabricante() +
+                                   " | Validade: " + v.getPeriodoValidadeEmMeses() + " meses");
             }
         }
     }
 
     // UPDATE
-    public void atualizarVacina(int index, Vacina vacinaAtualizada) {
-        if (index >= 0 && index < listaVacinas.size()) {
-            listaVacinas.set(index, vacinaAtualizada);
-            System.out.println("\n✏️ Vacina atualizada com sucesso!");
-        } else {
-            System.out.println("\n❌ Vacina não encontrada.");
-        }
+    // MUDANÇA: Recebe o objeto Vacina completo, que já deve conter o ID.
+    public void atualizarVacina(Vacina vacinaAtualizada) {
+        // A View é responsável por colocar o ID no objeto antes de passá-lo para cá
+        vacinaDAO.atualizarVacina(vacinaAtualizada);
     }
 
     // DELETE
-    public void removerVacina(int index) {
-        if (index >= 0 && index < listaVacinas.size()) {
-            listaVacinas.remove(index);
-            System.out.println("\n🗑️ Vacina removida com sucesso!");
-        } else {
-            System.out.println("\n❌ Vacina não encontrada.");
-        }
-    }
-
-    // Getter da lista (caso precise acessar da View)
-    public ArrayList<Vacina> getListaVacinas() {
-        return listaVacinas;
+    // MUDANÇA: Recebe o ID (long), não o índice (int)
+    public void removerVacina(long id) {
+        vacinaDAO.excluirVacina(id);
     }
 }
